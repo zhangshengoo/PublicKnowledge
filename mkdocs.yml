@@ -1,0 +1,59 @@
+site_name: Knowledge Base
+site_description: 个人知识库 — 研究笔记与技术参考（公开版）
+site_url: ""
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  language: zh
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: 切换到暗色模式
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: 切换到亮色模式
+  features:
+    - navigation.instant
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+plugins:
+  - search:
+      lang:
+        - zh
+        - en
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+  - tables
+  - toc:
+      permalink: true
+  - meta
+  - pymdownx.arithmatex:
+      generic: true
+
+extra_javascript:
+  - Resources/js/mathjax-config.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+  - Resources/js/mathjax-instant.js
+
+exclude_docs: |
+  _index.json

@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "generated": "2026-03-21",
+  "total_documents": 1,
+  "documents": [
+    {
+      "path": "Areas/Finance/a-share-quant-agent-open-source-survey.md",
+      "filename": "a-share-quant-agent-open-source-survey.md",
+      "title": "A 股金融理财与量化 Agent 开源项目深度调研",
+      "tags": [
+        "research-report",
+        "a-share",
+        "finance-agent",
+        "quant-agent",
+        "multi-agent",
+        "llm",
+        "trading",
+        "open-source",
+        "china-market"
+      ],
+      "domain": "finance",
+      "created": "2026-03-21",
+      "updated": "2026-03-21",
+      "summary": "专门面向 A 股市场的金融/量化 Agent 开源项目调研，筛选 2024 年后仍活跃的项目，按 star 数排序并深度拆解 Top 项目的核心功能与可借鉴架构",
+      "status": "active"
+    }
+  ]
+}
