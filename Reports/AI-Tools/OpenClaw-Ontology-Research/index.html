@@ -1,0 +1,2469 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="个人知识库 — 研究笔记与技术参考（公开版）">
+      
+      
+      
+      
+        <link rel="prev" href="../../_MOC/">
+      
+      
+        <link rel="next" href="../obsidian-agent-integration/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>OpenClaw + Ontology 深度研究报告 - Knowledge Base</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#openclaw-ontology" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="Knowledge Base" class="md-header__button md-logo" aria-label="Knowledge Base" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Knowledge Base
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              OpenClaw + Ontology 深度研究报告
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到暗色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到暗色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到亮色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到亮色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Knowledge Base" class="md-nav__button md-logo" aria-label="Knowledge Base" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Knowledge Base
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge — 个人知识库（公开版）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Papers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Papers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ai ml
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Ai ml
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Papers/ai-ml/_MOC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI-ML 论文笔记
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_2" id="__nav_2_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clap
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Clap
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Papers/ai-ml/clap/wavrag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WavRAG: Audio-Integrated Retrieval Augmented Generation for Spoken Dialogue Models
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--active"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../_MOC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reports 研究报告
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Tools
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Tools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenClaw + Ontology 深度研究报告
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--active"></span>
+  
+
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenClaw + Ontology 深度研究报告
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--active"></span>
+  
+
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-openclaw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. OpenClaw 概述
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. OpenClaw 概述">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心能力
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        环境要求
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-ontology-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Ontology Skill 详解
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Ontology Skill 详解">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心概念
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        支持的实体类型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        存储格式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        约束验证
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 最佳实践
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 最佳实践">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 数据保护
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Schema 设计
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 跨 Skill 集成
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 多步骤规划
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Memory 管理集成
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Token 优化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#37-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7 Skill 契约声明（高级）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 配置与设置
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 配置与设置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ontology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ontology 初始化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Schema 定义示例
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CLI 操作
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory 文件结构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        调试技巧
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 核心功能与优势
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. 核心功能与优势">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        可验证的状态变更
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        跨 Skill 可组合性
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        结构化共享记忆
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        依赖和遍历查询
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        事务性计划执行
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安全密钥处理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        因果推理
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 实际应用场景
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. 实际应用场景">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        个人知识管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        邮件和文档处理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        商业自动化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多 Agent 协调
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        偏好和推荐系统
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        项目管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. 高级功能
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. 高级功能">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12 层记忆架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        因果 Action 日志
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多 Agent 编排
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安全注意事项
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. 参考资源
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. 参考资源">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        官方文档
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#github" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GitHub 仓库
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        教程和指南
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        社区与分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../obsidian-agent-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Obsidian 与 AI Agent 深度集成：插件生态、工作流模式与实践指南
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--active"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Finance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Finance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Finance/a-share-quant-agent-open-source-survey/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A 股金融理财与量化 Agent 开源项目深度调研
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--active"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-openclaw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. OpenClaw 概述
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. OpenClaw 概述">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心能力
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        环境要求
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-ontology-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Ontology Skill 详解
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Ontology Skill 详解">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心概念
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        支持的实体类型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        存储格式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        约束验证
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 最佳实践
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 最佳实践">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 数据保护
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Schema 设计
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 跨 Skill 集成
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 多步骤规划
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Memory 管理集成
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Token 优化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#37-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7 Skill 契约声明（高级）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 配置与设置
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 配置与设置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ontology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ontology 初始化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Schema 定义示例
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CLI 操作
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory 文件结构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        调试技巧
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 核心功能与优势
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. 核心功能与优势">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        可验证的状态变更
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        跨 Skill 可组合性
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        结构化共享记忆
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        依赖和遍历查询
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        事务性计划执行
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安全密钥处理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        因果推理
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 实际应用场景
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. 实际应用场景">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        个人知识管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        邮件和文档处理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        商业自动化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多 Agent 协调
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        偏好和推荐系统
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        项目管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. 高级功能
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. 高级功能">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12 层记忆架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        因果 Action 日志
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多 Agent 编排
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安全注意事项
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. 参考资源
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. 参考资源">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        官方文档
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#github" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GitHub 仓库
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        教程和指南
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        社区与分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="openclaw-ontology">OpenClaw + Ontology 深度研究报告<a class="headerlink" href="#openclaw-ontology" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>研究日期: 2026-03-18</p>
+</blockquote>
+<hr />
+<h2 id="1-openclaw">1. OpenClaw 概述<a class="headerlink" href="#1-openclaw" title="Permanent link">&para;</a></h2>
+<p><strong>OpenClaw</strong>（前身为 Clawdbot、Moltbot）是由 <strong>Peter Steinberger</strong> 开发的免费开源自主 AI Agent 平台。</p>
+<ul>
+<li>2025年11月以 "Clawdbot" 名称发布</li>
+<li>2026年1月27日因 Anthropic 商标投诉更名为 "Moltbot"，三天后再更名为 "OpenClaw"</li>
+<li>2026年2月14日，Steinberger 宣布加入 OpenAI，项目移交开源基金会</li>
+<li>NVIDIA 宣布 <strong>NemoClaw</strong>，在 OpenClaw 之上运行 Nemotron 模型和 OpenShell 运行时</li>
+</ul>
+<h3 id="_1">核心架构<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Gateway</strong></td>
+<td>核心服务器，路由消息到各渠道和 Agent</td>
+</tr>
+<tr>
+<td><strong>Skills System</strong></td>
+<td>基于 Markdown 的模块化插件（SKILL.md + YAML frontmatter）</td>
+</tr>
+<tr>
+<td><strong>Memory System</strong></td>
+<td>持久化存储：扁平 Markdown 文件、每日日志、SQLite 数据库</td>
+</tr>
+<tr>
+<td><strong>Agent Files</strong></td>
+<td>SOUL.md（个性身份）、AGENTS.md（运行规则）、TOOLS.md（可用工具）</td>
+</tr>
+<tr>
+<td><strong>Multi-channel</strong></td>
+<td>WhatsApp、Telegram、Slack、Discord、Signal、iMessage、IRC、Teams、Matrix 等 20+ 渠道</td>
+</tr>
+<tr>
+<td><strong>Multi-agent</strong></td>
+<td>将入站渠道/账户/对等方路由到隔离的 Agent</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_2">核心能力<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li>运行 Shell 命令、控制浏览器、读写文件、管理日历、发送邮件</li>
+<li>语音唤醒和对话模式（macOS/iOS 唤醒词，Android 持续语音）</li>
+<li>Live Canvas（Agent 驱动的可视化工作区）</li>
+<li>50+ 集成，覆盖聊天、AI 模型、生产力工具、智能家居</li>
+<li><strong>ClawHub 市场</strong> 2,857+ 可下载 Skills</li>
+<li>Skills 优先级：workspace &gt; managed/local &gt; bundled</li>
+</ul>
+<h3 id="_3">环境要求<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Node 24（推荐）或 Node 22 LTS（22.16+）</li>
+<li>支持的 LLM Provider API Key（Claude、GPT、DeepSeek 等）</li>
+</ul>
+<hr />
+<h2 id="2-ontology-skill">2. Ontology Skill 详解<a class="headerlink" href="#2-ontology-skill" title="Permanent link">&para;</a></h2>
+<p><strong>Ontology skill</strong> 是一个为 OpenClaw 设计的类型化词汇和约束系统，用于将知识表示为<strong>可验证的图谱</strong>。由 <strong>oswalpalash</strong> 开发，在 ClawHub 上可用。</p>
+<h3 id="_4">核心概念<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>Ontology 中的一切都是 <strong>Entity（实体）</strong>，具有类型、属性和与其他实体的关系。每次变更在提交前都会根据类型约束进行验证。</p>
+<h3 id="_5">支持的实体类型<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agents &amp; People</td>
+<td>Person, Organization</td>
+</tr>
+<tr>
+<td>Work</td>
+<td>Project, Task, Goal</td>
+</tr>
+<tr>
+<td>Time &amp; Place</td>
+<td>Event, Location</td>
+</tr>
+<tr>
+<td>Information</td>
+<td>Document, Message, Thread, Note</td>
+</tr>
+<tr>
+<td>Resources</td>
+<td>Account, Device, Credential</td>
+</tr>
+<tr>
+<td>Meta</td>
+<td>Action, Policy</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_6">存储格式<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>图谱数据</strong>: <code>memory/ontology/graph.jsonl</code> — 仅追加的 JSONL 文件，存储 create/relate 操作</li>
+<li><strong>Schema</strong>: <code>memory/ontology/schema.yaml</code> — 类型定义和约束规则</li>
+</ul>
+<h3 id="_7">约束验证<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>必填属性</strong>强制检查</li>
+<li><strong>枚举验证</strong>（如 Task status 必须为: open, in_progress, blocked, done）</li>
+<li><strong>关系类型/基数规则</strong>（如 has_owner 为多对一）</li>
+<li><strong>无环约束</strong>（防止 "blocks" 关系中的循环依赖）</li>
+<li><strong>时间验证</strong>（Event end &gt;= start）</li>
+<li><strong>禁止属性</strong>（防止直接存储密钥）</li>
+</ul>
+<hr />
+<h2 id="3">3. 最佳实践<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<h3 id="31">3.1 数据保护<a class="headerlink" href="#31" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>始终追加/合并</strong> <code>graph.jsonl</code> 和 <code>schema.yaml</code> 的变更，<strong>绝不覆盖</strong></li>
+<li>这保留了历史记录并避免覆盖先前定义</li>
+</ul>
+<h3 id="32-schema">3.2 Schema 设计<a class="headerlink" href="#32-schema" title="Permanent link">&para;</a></h3>
+<ul>
+<li>尽早在 <code>schema.yaml</code> 中定义 Schema，将其视为一等公民</li>
+<li>使用 required 字段和 enums 从一开始就确保数据质量</li>
+</ul>
+<h3 id="33-skill">3.3 跨 Skill 集成<a class="headerlink" href="#33-skill" title="Permanent link">&para;</a></h3>
+<ul>
+<li>在每个 Skill 的 SKILL.md frontmatter 中声明 Ontology 读写的前置条件和后置条件</li>
+<li>使用 Ontology 作为多个 Skill 之间的共享状态</li>
+</ul>
+<h3 id="34">3.4 多步骤规划<a class="headerlink" href="#34" title="Permanent link">&para;</a></h3>
+<ul>
+<li>将多步骤计划建模为经过验证的图操作序列</li>
+<li>每步执行前验证，约束违反时自动回滚</li>
+</ul>
+<h3 id="35-memory">3.5 Memory 管理集成<a class="headerlink" href="#35-memory" title="Permanent link">&para;</a></h3>
+<ul>
+<li>保持 <code>MEMORY.md</code> 简短且高层次，让 Ontology 处理结构化事实</li>
+<li>Ontology 补充（而非替代）扁平文件记忆系统</li>
+<li>使用 <code>memory_search</code> 进行非结构化回忆，使用 Ontology 查询进行结构化查找</li>
+</ul>
+<h3 id="36-token">3.6 Token 优化<a class="headerlink" href="#36-token" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Prompt caching 可降低约 90% 的重复 token 成本</li>
+<li>避免不必要的压缩（会使缓存失效）</li>
+</ul>
+<h3 id="37-skill">3.7 Skill 契约声明（高级）<a class="headerlink" href="#37-skill" title="Permanent link">&para;</a></h3>
+<p>高级 Skill 应显式声明其 Ontology 交互：
+- <strong>Reads</strong>: Skill 查询的实体类型
+- <strong>Writes</strong>: Skill 创建/修改的实体类型
+- <strong>Preconditions</strong>: Skill 运行前必须存在的条件
+- <strong>Postconditions</strong>: Skill 执行后保证的结果</p>
+<hr />
+<h2 id="4">4. 配置与设置<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
+<h3 id="ontology">Ontology 初始化<a class="headerlink" href="#ontology" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># 创建 ontology 目录</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>memory/ontology
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># 初始化图谱文件</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>touch<span class="w"> </span>memory/ontology/graph.jsonl
+</code></pre></div>
+<h3 id="schema">Schema 定义示例<a class="headerlink" href="#schema" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># memory/ontology/schema.yaml</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nt">types</span><span class="p">:</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">Task</span><span class="p">:</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">title</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">status</span><span class="p p-Indicator">]</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="nt">status_enum</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">open</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">in_progress</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">blocked</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">done</span><span class="p p-Indicator">]</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="nt">Project</span><span class="p">:</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">name</span><span class="p p-Indicator">]</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="nt">Person</span><span class="p">:</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">name</span><span class="p p-Indicator">]</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="nt">relations</span><span class="p">:</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="nt">has_owner</span><span class="p">:</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="nt">from</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">Project</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">Task</span><span class="p p-Indicator">]</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="nt">to</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">Person</span><span class="p p-Indicator">]</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="nt">cardinality</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">many-to-one</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">  </span><span class="nt">blocks</span><span class="p">:</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="nt">from</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">Task</span><span class="p p-Indicator">]</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="nt">to</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">Task</span><span class="p p-Indicator">]</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">    </span><span class="nt">constraints</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">acyclic</span><span class="p p-Indicator">]</span>
+</code></pre></div>
+<h3 id="cli">CLI 操作<a class="headerlink" href="#cli" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># 创建实体</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>python3<span class="w"> </span>scripts/ontology.py<span class="w"> </span>create<span class="w"> </span>--type<span class="w"> </span>Person<span class="w"> </span>--props<span class="w"> </span><span class="s1">&#39;{&quot;name&quot;:&quot;Alice&quot;}&#39;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># 查询实体</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>python3<span class="w"> </span>scripts/ontology.py<span class="w"> </span>query<span class="w"> </span>--type<span class="w"> </span>Task<span class="w"> </span>--where<span class="w"> </span><span class="s1">&#39;{&quot;status&quot;:&quot;open&quot;}&#39;</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># 创建关系</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>python3<span class="w"> </span>scripts/ontology.py<span class="w"> </span>relate<span class="w"> </span>--from<span class="w"> </span>&lt;id1&gt;<span class="w"> </span>--rel<span class="w"> </span>has_owner<span class="w"> </span>--to<span class="w"> </span>&lt;id2&gt;
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># 验证图谱</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>python3<span class="w"> </span>scripts/ontology.py<span class="w"> </span>validate
+</code></pre></div>
+<h3 id="memory">Memory 文件结构<a class="headerlink" href="#memory" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SOUL.md</code></td>
+<td>Agent 个性和身份（基础）</td>
+</tr>
+<tr>
+<td><code>AGENTS.md</code></td>
+<td>操作规则和记忆管理</td>
+</tr>
+<tr>
+<td><code>TOOLS.md</code></td>
+<td>可用工具声明</td>
+</tr>
+<tr>
+<td><code>memory/MEMORY.md</code></td>
+<td>长期策展记忆</td>
+</tr>
+<tr>
+<td><code>workspace/memories/YYYY-MM-DD.md</code></td>
+<td>每日日志</td>
+</tr>
+<tr>
+<td><code>memory/ontology/</code></td>
+<td>结构化知识图谱</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_8">调试技巧<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<p>在 OpenClaw 会话中运行 <code>/context list</code> 来诊断记忆"未保留"的问题。</p>
+<hr />
+<h2 id="5">5. 核心功能与优势<a class="headerlink" href="#5" title="Permanent link">&para;</a></h2>
+<h3 id="_9">可验证的状态变更<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<p>每次实体创建、更新或关系建立都在提交前经过 Schema 验证，防止无效数据进入知识图谱。</p>
+<h3 id="skill">跨 Skill 可组合性<a class="headerlink" href="#skill" title="Permanent link">&para;</a></h3>
+<p>多个 Skill 可以读写同一个 Ontology，实现复杂的多 Agent 工作流和共享结构化状态。</p>
+<h3 id="_10">结构化共享记忆<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<p>相比扁平 Markdown 记忆文件，Ontology 提供类型化、可查询、有约束的共享记忆。</p>
+<h3 id="_11">依赖和遍历查询<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<p>图结构支持查询如 "X 的依赖是什么？"、"项目 Z 的所有任务"，以及完整的图遍历操作。</p>
+<h3 id="_12">事务性计划执行<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<p>多步操作可事务性地计划和执行，约束违反时自动回滚。</p>
+<h3 id="_13">安全密钥处理<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<p>Ontology 存储密钥引用（Credential 实体），而非原始值。禁止属性约束防止意外存储密钥。</p>
+<h3 id="_14">因果推理<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
+<p>变更记录为 Action 实体，支持跨 Agent 交互的因果链推理。</p>
+<hr />
+<h2 id="6">6. 实际应用场景<a class="headerlink" href="#6" title="Permanent link">&para;</a></h2>
+<h3 id="_15">个人知识管理<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
+<ul>
+<li>将 ChatGPT 导出处理为结构化知识图谱（案例：提取 49,079 个原子事实和 57 个实体）</li>
+<li>构建类型化的个人"第二大脑"系统</li>
+</ul>
+<h3 id="_16">邮件和文档处理<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h3>
+<ul>
+<li>处理邮件积压（15,000+ 封），按紧急程度分类，退订垃圾邮件，起草回复</li>
+<li>从邮件中提取承诺和行动项到 Ontology 实体</li>
+</ul>
+<h3 id="_17">商业自动化<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h3>
+<ul>
+<li>定期拉取 CRM 数据并交付客户健康指标</li>
+<li>自动化发票处理、报告生成</li>
+<li>跨 Google、Apple、Outlook 同步日历</li>
+</ul>
+<h3 id="agent">多 Agent 协调<a class="headerlink" href="#agent" title="Permanent link">&para;</a></h3>
+<ul>
+<li>运行专业化 Agent（策略师、开发者、营销、业务分析）通过消息协调</li>
+<li>共享 Ontology 状态实现跨 Agent 通信</li>
+</ul>
+<h3 id="_18">偏好和推荐系统<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h3>
+<ul>
+<li>构建关系图谱（如"某人偏好素食餐厅，不喜欢嘈杂场所"）</li>
+<li>基于图谱推理做出上下文推荐</li>
+</ul>
+<h3 id="_19">项目管理<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h3>
+<ul>
+<li>将项目、任务、目标、依赖关系作为类型化实体跟踪</li>
+<li>强制执行任务依赖的无环约束</li>
+<li>自动验证工作流转换</li>
+</ul>
+<hr />
+<h2 id="7">7. 高级功能<a class="headerlink" href="#7" title="Permanent link">&para;</a></h2>
+<h3 id="12">12 层记忆架构<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<p>社区项目提供 12 层记忆系统：
+- 3,000+ 事实的知识图谱
+- 语义搜索（多语言，7ms GPU）
+- 连续性/稳定性插件
+- 激活/衰减系统
+- 领域 RAG
+- Agent 从文件重建自身</p>
+<h3 id="action">因果 Action 日志<a class="headerlink" href="#action" title="Permanent link">&para;</a></h3>
+<p>将 Ontology 变更记录为因果 Action 实体，支持跨 Skill 和会话的因果链推理。</p>
+<h3 id="agent_1">多 Agent 编排<a class="headerlink" href="#agent_1" title="Permanent link">&para;</a></h3>
+<p>使用 <a href="https://github.com/abhi1693/openclaw-mission-control">openclaw-mission-control</a> 进行 AI Agent 编排仪表板管理。</p>
+<h3 id="_20">安全注意事项<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h3>
+<ul>
+<li>ClawHub 自 2026 年 2 月起集成 VirusTotal 扫描</li>
+<li>安装前始终审查 Skill</li>
+<li>NVIDIA NemoClaw 通过 OpenShell 运行时解决安全问题</li>
+<li>Ontology 的禁止属性约束防止意外存储密钥</li>
+</ul>
+<hr />
+<h2 id="8">8. 参考资源<a class="headerlink" href="#8" title="Permanent link">&para;</a></h2>
+<h3 id="_21">官方文档<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://docs.openclaw.ai/">OpenClaw Official Docs</a></li>
+<li><a href="https://docs.openclaw.ai/start/getting-started">Getting Started</a></li>
+<li><a href="https://docs.openclaw.ai/tools/skills">Skills Documentation</a></li>
+<li><a href="https://docs.openclaw.ai/concepts/agent-workspace">Agent Workspace</a></li>
+</ul>
+<h3 id="github">GitHub 仓库<a class="headerlink" href="#github" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://github.com/openclaw/openclaw">openclaw/openclaw</a> — 主仓库</li>
+<li><a href="https://github.com/openclaw/skills">openclaw/skills</a> — 所有 ClawHub Skills</li>
+<li><a href="https://github.com/openclaw/skills/blob/main/skills/oswalpalash/ontology/SKILL.md">Ontology SKILL.md</a></li>
+<li><a href="https://github.com/VoltAgent/awesome-openclaw-skills">awesome-openclaw-skills</a> — 5,400+ Skills</li>
+</ul>
+<h3 id="_22">教程和指南<a class="headerlink" href="#_22" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://www.freecodecamp.org/news/openclaw-full-tutorial-for-beginners/">FreeCodeCamp - OpenClaw Full Tutorial</a></li>
+<li><a href="https://every.to/guides/claw-school">Every.to - Comprehensive Guide</a></li>
+<li><a href="https://pub.towardsai.net/openclaw-complete-guide-setup-tutorial-2026-14dd1ae6d1c2">Towards AI - Complete Tutorial 2026</a></li>
+<li><a href="https://dev.to/mechcloud_academy/unleashing-openclaw-the-ultimate-guide-to-local-ai-agents-for-developers-in-2026-3k0h">DEV Community - Ultimate Guide</a></li>
+<li><a href="https://velvetshark.com/openclaw-memory-masterclass">VelvetShark - Memory Masterclass</a></li>
+</ul>
+<h3 id="_23">社区与分析<a class="headerlink" href="#_23" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/OpenClaw">Wikipedia - OpenClaw</a></li>
+<li><a href="https://www.digitalocean.com/resources/articles/what-is-openclaw">DigitalOcean - What Is OpenClaw</a></li>
+<li><a href="https://ppaolo.substack.com/p/openclaw-system-architecture-overview">OpenClaw Architecture - Substack</a></li>
+<li><a href="https://steipete.me/posts/2026/openclaw">Peter Steinberger Blog</a></li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../Resources/js/mathjax-config.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../../Resources/js/mathjax-instant.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1922 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="个人知识库 — 研究笔记与技术参考（公开版）">
+      
+      
+      
+      
+        <link rel="prev" href="../../_MOC/">
+      
+      
+        <link rel="next" href="../../../../Reports/_MOC/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>WavRAG: Audio-Integrated Retrieval Augmented Generation for Spoken Dialogue Models - Knowledge Base</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#wavrag-audio-integrated-retrieval-augmented-generation-for-spoken-dialogue-models" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../../.." title="Knowledge Base" class="md-header__button md-logo" aria-label="Knowledge Base" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Knowledge Base
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              WavRAG: Audio-Integrated Retrieval Augmented Generation for Spoken Dialogue Models
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到暗色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到暗色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到亮色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到亮色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Knowledge Base" class="md-nav__button md-logo" aria-label="Knowledge Base" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Knowledge Base
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge — 个人知识库（公开版）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Papers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Papers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ai ml
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Ai ml
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../_MOC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI-ML 论文笔记
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_2" id="__nav_2_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clap
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Clap
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WavRAG: Audio-Integrated Retrieval Augmented Generation for Spoken Dialogue Models
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--active"></span>
+  
+
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WavRAG: Audio-Integrated Retrieval Augmented Generation for Spoken Dialogue Models
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--active"></span>
+  
+
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tldr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TL;DR
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-innovation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 核心创新点（Innovation）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-model-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 模型设计（Model Architecture）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 模型设计（Model Architecture）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 整体架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 关键模块
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 关键模块">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wavretriever" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WavRetriever — 多模态检索器
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chain-of-thought-self-consistency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chain-of-Thought + Self-Consistency 生成模块
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 技术细节
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-training-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 训练细节（Training Details）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 训练细节（Training Details）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 数据集
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 训练策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 实验结果摘要
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 实验结果摘要">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#table-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        检索性能（Table 1）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#table-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        生成性能（Table 2）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#table-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        消融实验（Table 3）— 对比学习的效果
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 相关工作
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 相关工作">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bge-whisper-large-asr-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BGE + Whisper-Large：级联式 ASR-Text 检索基线
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 挑战与展望
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 与我的关联
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. 思考
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        参考文献
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reports
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reports
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Reports/_MOC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reports 研究报告
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Tools
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Tools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Reports/AI-Tools/OpenClaw-Ontology-Research/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenClaw + Ontology 深度研究报告
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--active"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Reports/AI-Tools/obsidian-agent-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Obsidian 与 AI Agent 深度集成：插件生态、工作流模式与实践指南
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--active"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Finance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Finance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Reports/Finance/a-share-quant-agent-open-source-survey/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A 股金融理财与量化 Agent 开源项目深度调研
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--active"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tldr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TL;DR
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-innovation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 核心创新点（Innovation）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-model-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 模型设计（Model Architecture）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 模型设计（Model Architecture）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 整体架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 关键模块
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 关键模块">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wavretriever" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WavRetriever — 多模态检索器
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chain-of-thought-self-consistency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chain-of-Thought + Self-Consistency 生成模块
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 技术细节
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-training-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 训练细节（Training Details）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 训练细节（Training Details）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 数据集
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 训练策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 实验结果摘要
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 实验结果摘要">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#table-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        检索性能（Table 1）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#table-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        生成性能（Table 2）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#table-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        消融实验（Table 3）— 对比学习的效果
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 相关工作
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 相关工作">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bge-whisper-large-asr-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BGE + Whisper-Large：级联式 ASR-Text 检索基线
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 挑战与展望
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 与我的关联
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. 思考
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        参考文献
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="wavrag-audio-integrated-retrieval-augmented-generation-for-spoken-dialogue-models">WavRAG: Audio-Integrated Retrieval Augmented Generation for Spoken Dialogue Models<a class="headerlink" href="#wavrag-audio-integrated-retrieval-augmented-generation-for-spoken-dialogue-models" title="Permanent link">&para;</a></h1>
+<p><sub>📄 arXiv 2025 · 📅 2025-02 · ✍️ Yifu Chen, Shengpeng Ji, Haoxiao Wang, et al. · 🏛️ Zhejiang University · <a href="https://arxiv.org/abs/2502.14727">arXiv</a></sub></p>
+<h2 id="tldr">TL;DR<a class="headerlink" href="#tldr" title="Permanent link">&para;</a></h2>
+<p>WavRAG 是首个端到端音频原生 RAG 框架，核心组件 WavRetriever 基于 Qwen2-Audio 通过对比学习构建统一的音频-文本嵌入空间，直接处理原始音频进行检索，绕过 ASR 转录瓶颈。在多个检索场景下达到与 ASR+文本检索相当的性能，同时实现 <strong>5.5x–14.4x 的速度提升</strong>，并通过 Chain-of-Thought 推理和 Self-Consistency 机制显著提升生成质量。</p>
+<hr />
+<h2 id="1-innovation">1. 核心创新点（Innovation）<a class="headerlink" href="#1-innovation" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>端到端音频 RAG 框架</strong>：首次提出绕过 ASR、直接在原始音频上进行嵌入和检索的 RAG 系统，消除了 ASR 转录误差传播和延迟瓶颈</li>
+<li><strong>WavRetriever 多模态检索器</strong>：基于 Qwen2-Audio 构建，通过 [[对比学习]]（InfoNCE Loss）将语音、音乐、环境音等多种音频模态与文本映射到统一嵌入空间</li>
+<li><strong>混合知识库</strong>：支持音频+文本混合文档的统一表示与检索，覆盖 Speech-to-Text、Text-to-Speech、Speech-to-Speech、Audio+Text 四种检索场景</li>
+<li><strong>CoT + Self-Consistency 生成策略</strong>：零样本 Chain-of-Thought 推理结合 Universal Self-Consistency 投票机制，提升生成准确性</li>
+</ul>
+<hr />
+<h2 id="2-model-architecture">2. 模型设计（Model Architecture）<a class="headerlink" href="#2-model-architecture" title="Permanent link">&para;</a></h2>
+<h3 id="21">2.1 整体架构<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
+<p>WavRAG 框架分为<strong>检索阶段</strong>和<strong>生成阶段</strong>两个核心环节。与传统 ASR-text RAG 流水线（先 ASR 转录再文本检索）不同，WavRAG 直接在音频信号上进行编码和检索：</p>
+<ol>
+<li><strong>双模态编码</strong>（Dual-modality Encoder）：WavRetriever 对查询和知识库文档进行统一编码</li>
+<li><strong>Top-K 文档检索</strong>：基于余弦相似度检索最相关的 K 个文档</li>
+<li><strong>Chain-of-Thought 推理</strong>：对检索到的文档进行推理式知识提取</li>
+<li><strong>LLM 响应生成</strong>：基于提取的知识生成最终回答</li>
+</ol>
+<p><img alt="Figure 2: WavRAG 框架整体架构" src="../assets/wavrag_fig2_framework.png" /></p>
+<blockquote>
+<p><strong>Figure 2</strong>：WavRAG 框架对比图。上方为传统 ASR-text RAG 流水线（需要先进行语音识别再文本检索），下方为 WavRAG 的四步流程（直接音频编码→检索→CoT 推理→生成），省去了 ASR 环节。</p>
+</blockquote>
+<h3 id="22">2.2 关键模块<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
+<h4 id="wavretriever">WavRetriever — 多模态检索器<a class="headerlink" href="#wavretriever" title="Permanent link">&para;</a></h4>
+<p>WavRetriever 基于 <strong>Qwen2-Audio</strong> 多模态大语言模型构建：</p>
+<ul>
+<li><strong>音频编码器</strong>：冻结 Qwen2-Audio 的预训练音频编码器参数，保留其强大的音频理解能力</li>
+<li><strong>投影层 + LLM 骨干</strong>：微调投影层和 LLM 骨干网络，学习统一的嵌入空间</li>
+<li><strong>输入处理</strong>：查询与任务指令拼接，附加 EOS token，取最后一层隐状态作为嵌入向量</li>
+<li><strong>LoRA 微调</strong>：rank=8, alpha=32, dropout=0.05，高效参数微调</li>
+</ul>
+<p><img alt="Figure 3: WavRetriever 检索器架构" src="../assets/wavrag_fig3_retriever.png" /></p>
+<blockquote>
+<p><strong>Figure 3</strong>：WavRetriever 架构。展示了输入处理（音频/文本/混合）、LLM 编码和知识库结构。查询经过指令模板包装后送入模型，输出嵌入与知识库文档嵌入计算相似度。</p>
+</blockquote>
+<h4 id="chain-of-thought-self-consistency">Chain-of-Thought + Self-Consistency 生成模块<a class="headerlink" href="#chain-of-thought-self-consistency" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Zero-Shot CoT</strong>：使用"Let's think step-by-step"提示词引导模型生成中间推理步骤，无需任务特定训练样本</li>
+<li><strong>Universal Self-Consistency (USC)</strong>：采样多条推理路径，由 LLM 选择最一致的答案（而非简单多数投票），提升最终回答的鲁棒性</li>
+</ul>
+<h3 id="23">2.3 技术细节<a class="headerlink" href="#23" title="Permanent link">&para;</a></h3>
+<p><strong>检索分布计算</strong>：</p>
+<div class="arithmatex">\[p(d|q_i) = \frac{\exp(\text{sim}(R_\phi(q_i), R_\phi(d)))}{\sum_{d_i \in \mathcal{D}} \exp(\text{sim}(R_\phi(q_i), R_\phi(d_i)))}\]</div>
+<p>其中 <span class="arithmatex">\(R_\phi\)</span> 为检索器编码函数，<span class="arithmatex">\(\text{sim}(\cdot, \cdot)\)</span> 为余弦相似度。</p>
+<p><strong>InfoNCE 对比损失</strong>：</p>
+<div class="arithmatex">\[Z = \sum_{i=0}^{t} \exp\left(\frac{\text{sim}(r_q, r_{k,i})}{\tau}\right)\]</div>
+<div class="arithmatex">\[\mathcal{L} = -\left[\frac{\text{sim}(r_q, r_k^+)}{\tau} - \log Z\right]\]</div>
+<p>其中 <span class="arithmatex">\(r_q\)</span> 为查询嵌入，<span class="arithmatex">\(r_k^+\)</span> 为正样本嵌入，<span class="arithmatex">\(\tau\)</span> 为温度参数。通过最大化正样本对相似度、最小化批内负样本相似度来优化嵌入空间。</p>
+<p><strong>CoT 推理公式</strong>：</p>
+<div class="arithmatex">\[C_{\text{answer}} = G_{\text{reasoning}}(q_{\text{uni}}, P_{\text{prompt}} + P', \mathcal{K}_k)\]</div>
+<p>其中 <span class="arithmatex">\(P'\)</span> 为 CoT 提示，<span class="arithmatex">\(\mathcal{K}_k\)</span> 为检索到的 Top-K 文档。</p>
+<p><strong>与 ASR-text RAG 的核心优势</strong>：
+- <strong>消除误差传播</strong>：ASR 转录错误（WER 可达 20%–45%）会直接影响下游检索质量，WavRAG 完全绕过该环节
+- <strong>大幅降低延迟</strong>：省去 ASR 推理时间，在各场景下实现 5.5x–14.4x 加速
+- <strong>保留非语义音频信息</strong>：传统 ASR 丢失音乐、环境音等非语言信息，WavRAG 的统一嵌入空间可同时表示语音、音乐和环境音</p>
+<p><strong>数据增强</strong>：训练时对音频数据依次施加回声模拟（100–500 ms 延迟，0–0.2 缩放）、MUSAN 噪声叠加和随机增益调整，提升模型鲁棒性。</p>
+<hr />
+<h2 id="3-training-details">3. 训练细节（Training Details）<a class="headerlink" href="#3-training-details" title="Permanent link">&para;</a></h2>
+<h3 id="31">3.1 数据集<a class="headerlink" href="#31" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>训练规模</strong>：约 150 万样本，覆盖五类检索场景</li>
+<li><strong>Speech-to-Text</strong>：基于 HotpotQA、Quora 等使用 CosyVoice2 TTS 合成语音查询（约 14.5 万样本）</li>
+<li><strong>Text-to-Text</strong>：ELI5、TriviaQA、SQuAD、MS MARCO 等纯文本检索对（约 96 万样本）</li>
+<li><strong>Speech-to-Speech</strong>：SLUE-SQA-5、Spoken-SQuAD（约 8.3 万样本）</li>
+<li><strong>Audio+Text</strong>：AudioCaps、MusicCaps、Clotho、VoxCeleb、Xeno-canto 等，使用 Gemini 1.5 Pro 生成扩展知识和问答对（约 13 万样本）</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>任务</th>
+<th>数据集</th>
+<th>训练对数</th>
+<th>检索测试</th>
+<th>生成测试</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Speech-to-Text</td>
+<td>Quora, HotpotQA</td>
+<td>144,718</td>
+<td>7,405</td>
+<td>7,405</td>
+</tr>
+<tr>
+<td>Text-to-Text</td>
+<td>ELI5, TriviaQA, SQuAD, MS MARCO</td>
+<td>959,212</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Speech-to-Speech</td>
+<td>SLUE-SQA-5</td>
+<td>46,186</td>
+<td>2,382</td>
+<td>2,382</td>
+</tr>
+<tr>
+<td>Text-to-Speech</td>
+<td>Spoken-SQuAD</td>
+<td>37,111</td>
+<td>5,351</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Audio+Text</td>
+<td>自建 + AudioCaps + MusicCaps 等</td>
+<td>130,867</td>
+<td>14,709</td>
+<td>1,959</td>
+</tr>
+</tbody>
+</table>
+<h3 id="32">3.2 训练策略<a class="headerlink" href="#32" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>骨干模型</strong>：Qwen2-Audio，冻结音频编码器，LoRA 微调 LLM 骨干</li>
+<li><strong>训练配置</strong>：LoRA rank=8, alpha=32, dropout=0.05, lr=1e-4, batch_size=64</li>
+<li><strong>硬件</strong>：4× NVIDIA A800 (80GB)，bfloat16 精度，梯度检查点</li>
+<li><strong>损失函数</strong>：InfoNCE 对比损失，利用批内负样本</li>
+<li><strong>Token 限制</strong>：音频最大 2000 tokens，文本最大 512 tokens</li>
+<li><strong>评估指标</strong>：Recall@K (R@1, R@5, R@10), nDCG@10, Exact Match (EM), FactScore</li>
+</ul>
+<h3 id="33">3.3 实验结果摘要<a class="headerlink" href="#33" title="Permanent link">&para;</a></h3>
+<h4 id="table-1">检索性能（Table 1）<a class="headerlink" href="#table-1" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>模型</th>
+<th>时间(s)</th>
+<th>R@1</th>
+<th>R@10</th>
+<th>nDCG@10</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Speech2Text</td>
+<td>BGE+Whisper-Large</td>
+<td>1.92</td>
+<td>0.4533</td>
+<td>0.8895</td>
+<td>0.5252</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>WavRAG</strong></td>
+<td><strong>0.23</strong></td>
+<td><strong>0.4532</strong></td>
+<td><strong>0.8898</strong></td>
+<td>0.5117</td>
+</tr>
+<tr>
+<td>Text2Speech</td>
+<td>BGE+Whisper</td>
+<td>—</td>
+<td>0.5464</td>
+<td>0.8497</td>
+<td>0.6947</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>WavRAG</strong></td>
+<td><strong>0.11</strong></td>
+<td><strong>0.6844</strong></td>
+<td><strong>0.9023</strong></td>
+<td><strong>0.8483</strong></td>
+</tr>
+<tr>
+<td>Speech2Speech</td>
+<td>BGE+Whisper-Large</td>
+<td>4.63</td>
+<td>0.3312</td>
+<td>0.7196</td>
+<td>0.3269</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>WavRAG</strong></td>
+<td><strong>0.22</strong></td>
+<td><strong>0.3392</strong></td>
+<td><strong>0.7221</strong></td>
+<td><strong>0.3623</strong></td>
+</tr>
+<tr>
+<td>Audio+Text</td>
+<td>CLAP (AT)</td>
+<td>0.05</td>
+<td>0.1260</td>
+<td>0.3989</td>
+<td>0.2474</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>WavRAG</strong></td>
+<td>0.19</td>
+<td><strong>0.2728</strong></td>
+<td><strong>0.6313</strong></td>
+<td><strong>0.4381</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Table 1</strong>：核心检索结果。WavRAG 在 Speech2Text 场景与最强 BGE+Whisper-Large 基线性能相当，但速度提升 <strong>8.3x</strong>；在 Text2Speech 和 Audio+Text 场景大幅超越所有基线。</p>
+</blockquote>
+<h4 id="table-2">生成性能（Table 2）<a class="headerlink" href="#table-2" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>LLM</th>
+<th>HotpotQA top-1 EM</th>
+<th>SLUE-SQA-5 top-1 EM</th>
+<th>Custom FactScore</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TextRAG</td>
+<td>GPT-4o</td>
+<td>0.3124</td>
+<td>0.3237</td>
+<td>—</td>
+</tr>
+<tr>
+<td>WavRAG</td>
+<td>GPT-4o</td>
+<td>0.4019</td>
+<td>0.3904</td>
+<td>0.5732</td>
+</tr>
+<tr>
+<td><strong>WavRAG-CoT</strong></td>
+<td><strong>GPT-4o</strong></td>
+<td><strong>0.4261</strong></td>
+<td><strong>0.4520</strong></td>
+<td><strong>0.6412</strong></td>
+</tr>
+<tr>
+<td>TextRAG</td>
+<td>QwenAudio</td>
+<td>0.1783</td>
+<td>0.2439</td>
+<td>—</td>
+</tr>
+<tr>
+<td>WavRAG-CoT</td>
+<td>QwenAudio</td>
+<td>0.2688</td>
+<td>0.3132</td>
+<td>0.6386</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Table 2</strong>：生成性能。WavRAG-CoT + GPT-4o 在所有指标上均显著超越 TextRAG 基线，HotpotQA EM 提升 36.4%，SLUE-SQA-5 EM 提升 39.6%。</p>
+</blockquote>
+<h4 id="table-3">消融实验（Table 3）— 对比学习的效果<a class="headerlink" href="#table-3" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>数据集</th>
+<th>指标</th>
+<th>Qwen2Audio 原始</th>
+<th>WavRAG</th>
+<th>提升</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Custom</td>
+<td>R@1</td>
+<td>0.0675</td>
+<td>0.2728</td>
+<td>+0.2053</td>
+</tr>
+<tr>
+<td></td>
+<td>nDCG@10</td>
+<td>0.1212</td>
+<td>0.5381</td>
+<td>+0.4169</td>
+</tr>
+<tr>
+<td>Spoken-SQuAD</td>
+<td>R@1</td>
+<td>0.3407</td>
+<td>0.6844</td>
+<td>+0.3437</td>
+</tr>
+<tr>
+<td></td>
+<td>nDCG@10</td>
+<td>0.3554</td>
+<td>0.8483</td>
+<td><strong>+0.4929</strong></td>
+</tr>
+<tr>
+<td>HotpotQA</td>
+<td>R@1</td>
+<td>0.1457</td>
+<td>0.4532</td>
+<td>+0.3075</td>
+</tr>
+<tr>
+<td></td>
+<td>nDCG@10</td>
+<td>0.2868</td>
+<td>0.5117</td>
+<td>+0.2249</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Table 3</strong>：消融实验证明对比学习训练带来巨大提升，R@1 提升 0.20–0.34，nDCG@10 提升 0.22–0.49。</p>
+</blockquote>
+<hr />
+<h2 id="4">4. 相关工作<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
+<h3 id="bge-whisper-large-asr-text">BGE + Whisper-Large：级联式 ASR-Text 检索基线<a class="headerlink" href="#bge-whisper-large-asr-text" title="Permanent link">&para;</a></h3>
+<p>WavRAG 论文中最重要的 baseline 是 <strong>BGE + Whisper-Large</strong> 级联方案，代表了传统 ASR-text RAG 的最强链路：</p>
+<p><strong>流程</strong>：Audio → Whisper-Large ASR 转录 → BGE 文本嵌入 → 余弦相似度检索</p>
+<ul>
+<li><strong>Whisper-Large</strong>（OpenAI, 2022）：1.55B 参数的多语言 ASR 模型，基于 68 万小时多语言标注数据训练，采用 encoder-decoder Transformer 架构。在多数语言上达到接近人类的转录精度，是目前开源 ASR 的事实标准</li>
+<li><strong>BGE</strong>（BAAI, Xiao et al., 2024）：BAAI 通用嵌入模型系列，通过 RetroMAE 预训练 + 对比学习微调的两阶段训练，在 MTEB 榜单上表现优异。支持 instruction-based embedding，可根据任务指令调整嵌入语义</li>
+</ul>
+<p><strong>优势</strong>：
+- 文本检索质量极高，BGE 在纯文本检索任务上是 SOTA 级别
+- Whisper-Large 转录精度高，在干净语音场景下 WER 可低于 5%
+- 组件成熟、易于部署，工程链路清晰</p>
+<p><strong>劣势（WavRAG 论文论证的核心对比点）</strong>：
+- <strong>延迟瓶颈</strong>：ASR 推理占据绝大部分延迟。Speech2Text 场景 1.92s vs WavRAG 0.23s（8.3x 差距），Speech2Speech 场景 4.63s vs 0.22s（21x 差距）
+- <strong>ASR 误差传播</strong>：Whisper 在噪声、口音、专有名词上的 WER 可达 20%–45%，转录错误直接传导至检索质量下降
+- <strong>非语言信息丢失</strong>：ASR 仅输出文字，完全丢弃音乐、环境音、情感韵律等信息，导致在 Audio+Text 混合检索场景下无法工作</p>
+<p><strong>与 WavRAG 的关键对比</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>BGE + Whisper-Large</th>
+<th>WavRAG</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>架构</td>
+<td>级联（ASR → 文本嵌入）</td>
+<td>端到端（音频 → 统一嵌入）</td>
+</tr>
+<tr>
+<td>Speech2Text R@1</td>
+<td>0.4533</td>
+<td>0.4532（持平）</td>
+</tr>
+<tr>
+<td>Speech2Text 延迟</td>
+<td>1.92s</td>
+<td>0.23s（8.3x↓）</td>
+</tr>
+<tr>
+<td>Speech2Speech R@1</td>
+<td>0.3312</td>
+<td>0.3392（略优）</td>
+</tr>
+<tr>
+<td>Audio+Text 支持</td>
+<td>❌ 不支持</td>
+<td>✅ R@1=0.2728</td>
+</tr>
+<tr>
+<td>误差来源</td>
+<td>ASR WER + 嵌入误差</td>
+<td>仅嵌入误差</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>核心结论</strong>：在纯语音-文本检索场景，BGE+Whisper-Large 的检索质量与 WavRAG 几乎持平，级联方案在质量上并未被超越。WavRAG 的核心价值在于：(1) 大幅降低延迟；(2) 泛化到非语言音频检索；(3) 消除 ASR 误差传播风险。</p>
+</blockquote>
+<hr />
+<h2 id="5">5. 挑战与展望<a class="headerlink" href="#5" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>情感与韵律建模</strong>：当前 RAG 主要关注语义内容，语音中的情感色彩、语调韵律等 [[副语言学]]（Paralinguistics）信息在生成响应中的作用尚未充分探索</li>
+<li><strong>音频理解的深度</strong>：尽管绕过了 ASR，但音频嵌入对复杂语义理解（如隐喻、反讽）的捕获能力仍有提升空间</li>
+<li><strong>知识库规模扩展</strong>：论文实验中知识库规模相对有限，大规模音频知识库（百万级文档）下的检索效率和质量有待验证</li>
+<li><strong>多轮对话支持</strong>：当前框架聚焦单轮问答，多轮对话上下文的持续检索和更新是重要方向</li>
+</ul>
+<hr />
+<h2 id="6">6. 与我的关联<a class="headerlink" href="#6" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>ASR 热词检索的替代思路</strong>：WavRAG 证明了直接音频嵌入检索的可行性，对现有 CLAP-based 热词检索方案提供了一种端到端的替代思路，尤其在低延迟场景下优势明显</li>
+<li><strong>WavRetriever 的对比学习方案</strong>：InfoNCE + 批内负样本的训练策略与现有 CLAP 检索工作一脉相承，可借鉴其数据增强策略（回声模拟、MUSAN 噪声）提升检索鲁棒性</li>
+<li><strong>多模态知识库构建</strong>：使用 Gemini 1.5 Pro 对音频-文本对进行知识扩展的思路，可用于丰富热词知识库的上下文信息</li>
+</ul>
+<hr />
+<h2 id="7">7. 思考<a class="headerlink" href="#7" title="Permanent link">&para;</a></h2>
+<p><strong>1. 音频原生检索 vs ASR 前置检索的权衡</strong></p>
+<p>WavRAG 的核心论点是"绕过 ASR"，但实验数据揭示了一个微妙的平衡：在 Speech-to-Text 场景下，WavRAG 与 BGE+Whisper-Large 的检索性能几乎持平（R@10: 0.8898 vs 0.8895），真正的优势在于延迟（0.23s vs 1.92s）。这说明对于纯语音-文本检索，ASR 管线在质量上并未被超越，WavRAG 的核心价值在于速度和对非语言音频的泛化能力。</p>
+<p><strong>2. 统一嵌入空间的意义</strong></p>
+<p>从 PCA 可视化（Figure 6）来看，WavRAG 相比 CLAP 和原始 Qwen2-Audio 构建了更好分离的嵌入空间。这一点对多模态检索至关重要——CLAP 在 Audio+Text 混合检索场景下几乎完全失效（R@1 接近 0），而 WavRAG 达到了 R@1=0.2728。这暗示基于大语言模型的多模态编码器在构建统一嵌入空间方面具有本质优势。</p>
+<p><strong>3. 对比学习的关键作用</strong></p>
+<p>消融实验显示，仅使用 Qwen2-Audio 原始嵌入的检索性能极差（HotpotQA R@1 仅 0.1457），对比学习训练后提升至 0.4532。这证实了：预训练多模态模型的通用表示并不直接适用于检索任务，必须通过任务特定的对比学习进行嵌入空间优化。这一结论同样适用于其他基于 MLLM 的检索系统设计。</p>
+<p><strong>4. CoT 和 Self-Consistency 的叠加收益</strong></p>
+<p>WavRAG → WavRAG-CoT 的提升（HotpotQA EM: 0.4019 → 0.4261）表明 CoT 推理在 RAG 生成阶段仍有显著价值。Self-Consistency 通过采样多条推理路径并选择最一致答案，有效缓解了单次推理的不稳定性。这种"检索+推理+一致性验证"的三层架构值得在其他 RAG 系统中借鉴。</p>
+<hr />
+<h2 id="_1">参考文献<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Qwen2-Audio</strong> (Chu et al., 2024) — WavRetriever 的骨干模型，强大的音频理解 MLLM</li>
+<li><strong>CLAP</strong> (Laion-AI, 2023) — 对比语言-音频预训练，Audio+Text 检索基线</li>
+<li><strong>BGE</strong> (Xiao et al., 2024) — 文本嵌入模型，ASR-text RAG 的检索基线</li>
+<li><strong>CosyVoice2</strong> — 用于合成训练数据中语音查询的 TTS 系统</li>
+<li><strong>Universal Self-Consistency</strong> (Chen et al., 2023) — LLM 推理一致性选择方法</li>
+<li><strong>SLUE-SQA-5</strong> — 口语问答基准测试集</li>
+<li><strong>Spoken-SQuAD</strong> — 语音版 SQuAD 阅读理解数据集</li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../../Resources/js/mathjax-config.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../../../Resources/js/mathjax-instant.js"></script>
+      
+    
+  </body>
+</html>
