@@ -1,10 +1,63 @@
 {
   "version": 1,
-  "generated": "2026-03-22",
-  "total_documents": 2,
+  "generated": "2026-03-28",
+  "total_documents": 4,
   "documents": [
     {
-      "path": "Areas/Finance/a-share-quant-agent-open-source-survey.md",
+      "path": "Papers/ai-ml/clap/wavrag.md",
+      "filename": "wavrag.md",
+      "title": "WavRAG: Audio-Integrated Retrieval Augmented Generation for Spoken Dialogue Models",
+      "tags": [
+        "paper-note",
+        "speech-llm",
+        "rag",
+        "audio-retrieval",
+        "multimodal",
+        "contrastive-learning"
+      ],
+      "domain": "ai-ml",
+      "created": "2026-03-19",
+      "updated": "2026-03-22",
+      "summary": "首个端到端音频原生 RAG 框架，绕过 ASR 直接处理原始音频进行嵌入与检索，实现与 ASR-text RAG 相当的检索性能同时获得 10 倍加速",
+      "status": "active"
+    },
+    {
+      "path": "Reports/AI-Tools/OpenClaw-Ontology-Research.md",
+      "filename": "OpenClaw-Ontology-Research.md",
+      "title": "OpenClaw + Ontology 深度研究报告",
+      "tags": [
+        "openclaw",
+        "ontology",
+        "ai-agent",
+        "skills-system"
+      ],
+      "domain": "report",
+      "created": "2026-03-18",
+      "updated": "2026-03-18",
+      "summary": "OpenClaw 开源 AI Agent 平台架构分析，重点研究 Ontology Skill 的实体类型、配置方法和最佳实践",
+      "status": "active"
+    },
+    {
+      "path": "Reports/AI-Tools/obsidian-agent-integration.md",
+      "filename": "obsidian-agent-integration.md",
+      "title": "Obsidian 与 AI Agent 深度集成：插件生态、工作流模式与实践指南",
+      "tags": [
+        "research-report",
+        "obsidian",
+        "ai-agent",
+        "mcp",
+        "rag",
+        "knowledge-management",
+        "plugin"
+      ],
+      "domain": "report",
+      "created": "2026-03-22",
+      "updated": "2026-03-22",
+      "summary": "系统梳理 Obsidian 与 AI Agent 结合的四大路径（内置插件、MCP 桥接、CLI Agent 直接操作、RAG 管道），涵盖 20+ 工具的能力边界、经验证的工作流模式及落地建议",
+      "status": "active"
+    },
+    {
+      "path": "Reports/Finance/a-share-quant-agent-open-source-survey.md",
       "filename": "a-share-quant-agent-open-source-survey.md",
       "title": "A 股金融理财与量化 Agent 开源项目深度调研",
       "tags": [
@@ -22,24 +75,6 @@
       "created": "2026-03-21",
       "updated": "2026-03-21",
       "summary": "专门面向 A 股市场的金融/量化 Agent 开源项目调研，筛选 2024 年后仍活跃的项目，按 star 数排序并深度拆解 Top 项目的核心功能与可借鉴架构",
-      "status": "active"
-    },
-    {
-      "path": "Papers/ai-ml/clap/wavrag.md",
-      "filename": "wavrag.md",
-      "title": "WavRAG: Audio-Integrated Retrieval Augmented Generation for Spoken Dialogue Models",
-      "tags": [
-        "paper-note",
-        "speech-llm",
-        "rag",
-        "audio-retrieval",
-        "multimodal",
-        "contrastive-learning"
-      ],
-      "domain": "ai-ml",
-      "created": "2026-03-19",
-      "updated": "2026-03-19",
-      "summary": "首个端到端音频原生 RAG 框架，绕过 ASR 直接处理原始音频进行嵌入与检索，实现与 ASR-text RAG 相当的检索性能同时获得 10 倍加速",
       "status": "active"
     }
   ]

@@ -3,7 +3,7 @@ title: "WavRAG: Audio-Integrated Retrieval Augmented Generation for Spoken Dialo
 tags: [paper-note, speech-llm, rag, audio-retrieval, multimodal, contrastive-learning]
 domain: "ai-ml"
 created: 2026-03-19
-updated: 2026-03-19
+updated: 2026-03-22
 summary: "首个端到端音频原生 RAG 框架，绕过 ASR 直接处理原始音频进行嵌入与检索，实现与 ASR-text RAG 相当的检索性能同时获得 10 倍加速"
 status: "active"
 visibility: "public"
@@ -14,7 +14,7 @@ paper_info:
   url: "https://arxiv.org/abs/2502.14727"
   institution: "Zhejiang University"
 related:
-  - "Areas/AI-ML/CLAP/multimodal-rag-asr-hotword-retrieval.md"
+  - "Reports/AI-ML/multimodal-rag-asr-hotword-retrieval.md"
   - "Papers/ai-ml/clap/br-asr.md"
   - "Papers/ai-ml/clap/cb-rag-context-discovery-asr.md"
 ---
@@ -175,7 +175,43 @@ $$C_{\text{answer}} = G_{\text{reasoning}}(q_{\text{uni}}, P_{\text{prompt}} + P
 
 ---
 
-## 4. 挑战与展望
+## 4. 相关工作
+
+### BGE + Whisper-Large：级联式 ASR-Text 检索基线
+
+WavRAG 论文中最重要的 baseline 是 **BGE + Whisper-Large** 级联方案，代表了传统 ASR-text RAG 的最强链路：
+
+**流程**：Audio → Whisper-Large ASR 转录 → BGE 文本嵌入 → 余弦相似度检索
+
+- **Whisper-Large**（OpenAI, 2022）：1.55B 参数的多语言 ASR 模型，基于 68 万小时多语言标注数据训练，采用 encoder-decoder Transformer 架构。在多数语言上达到接近人类的转录精度，是目前开源 ASR 的事实标准
+- **BGE**（BAAI, Xiao et al., 2024）：BAAI 通用嵌入模型系列，通过 RetroMAE 预训练 + 对比学习微调的两阶段训练，在 MTEB 榜单上表现优异。支持 instruction-based embedding，可根据任务指令调整嵌入语义
+
+**优势**：
+- 文本检索质量极高，BGE 在纯文本检索任务上是 SOTA 级别
+- Whisper-Large 转录精度高，在干净语音场景下 WER 可低于 5%
+- 组件成熟、易于部署，工程链路清晰
+
+**劣势（WavRAG 论文论证的核心对比点）**：
+- **延迟瓶颈**：ASR 推理占据绝大部分延迟。Speech2Text 场景 1.92s vs WavRAG 0.23s（8.3x 差距），Speech2Speech 场景 4.63s vs 0.22s（21x 差距）
+- **ASR 误差传播**：Whisper 在噪声、口音、专有名词上的 WER 可达 20%–45%，转录错误直接传导至检索质量下降
+- **非语言信息丢失**：ASR 仅输出文字，完全丢弃音乐、环境音、情感韵律等信息，导致在 Audio+Text 混合检索场景下无法工作
+
+**与 WavRAG 的关键对比**：
+
+| 维度 | BGE + Whisper-Large | WavRAG |
+|------|-------------------|--------|
+| 架构 | 级联（ASR → 文本嵌入） | 端到端（音频 → 统一嵌入） |
+| Speech2Text R@1 | 0.4533 | 0.4532（持平） |
+| Speech2Text 延迟 | 1.92s | 0.23s（8.3x↓） |
+| Speech2Speech R@1 | 0.3312 | 0.3392（略优） |
+| Audio+Text 支持 | ❌ 不支持 | ✅ R@1=0.2728 |
+| 误差来源 | ASR WER + 嵌入误差 | 仅嵌入误差 |
+
+> **核心结论**：在纯语音-文本检索场景，BGE+Whisper-Large 的检索质量与 WavRAG 几乎持平，级联方案在质量上并未被超越。WavRAG 的核心价值在于：(1) 大幅降低延迟；(2) 泛化到非语言音频检索；(3) 消除 ASR 误差传播风险。
+
+---
+
+## 5. 挑战与展望
 
 - **情感与韵律建模**：当前 RAG 主要关注语义内容，语音中的情感色彩、语调韵律等 [[副语言学]]（Paralinguistics）信息在生成响应中的作用尚未充分探索
 - **音频理解的深度**：尽管绕过了 ASR，但音频嵌入对复杂语义理解（如隐喻、反讽）的捕获能力仍有提升空间
@@ -184,7 +220,7 @@ $$C_{\text{answer}} = G_{\text{reasoning}}(q_{\text{uni}}, P_{\text{prompt}} + P
 
 ---
 
-## 5. 与我的关联
+## 6. 与我的关联
 
 - **ASR 热词检索的替代思路**：WavRAG 证明了直接音频嵌入检索的可行性，对现有 CLAP-based 热词检索方案提供了一种端到端的替代思路，尤其在低延迟场景下优势明显
 - **WavRetriever 的对比学习方案**：InfoNCE + 批内负样本的训练策略与现有 CLAP 检索工作一脉相承，可借鉴其数据增强策略（回声模拟、MUSAN 噪声）提升检索鲁棒性
@@ -192,7 +228,7 @@ $$C_{\text{answer}} = G_{\text{reasoning}}(q_{\text{uni}}, P_{\text{prompt}} + P
 
 ---
 
-## 6. 思考
+## 7. 思考
 
 **1. 音频原生检索 vs ASR 前置检索的权衡**
 

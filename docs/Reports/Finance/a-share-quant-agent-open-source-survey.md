@@ -10,9 +10,9 @@ visibility: "public"
 confidence: "high"
 sources: 30
 related:
-  - "finance-quant-agent-open-source-survey.md"
-  - "../AI-Tools/Skills/Analysis/a-share-stock-analysis-skills.md"
-  - "../AI-Tools/Skills/Research/financial-search-skills-survey.md"
+  - "Reports/Finance/finance-quant-agent-open-source-survey.md"
+  - "Reports/AI-Tools/a-share-stock-analysis-skills.md"
+  - "Reports/AI-Tools/financial-search-skills-survey.md"
 ---
 
 # A 股金融理财与量化 Agent 开源项目深度调研
